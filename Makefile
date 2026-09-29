@@ -1,4 +1,4 @@
-.PHONY: setup test lint format typecheck contracts foundation-check check local-up local-down migrate demo
+.PHONY: setup test lint format typecheck contracts foundation-check check local-up local-down migrate demo mcp mcp-check
 
 setup:
 	python3 -m venv .venv
@@ -36,3 +36,9 @@ migrate:
 
 demo:
 	.venv/bin/tracekeep demo
+
+mcp:
+	.venv/bin/tracekeep mcp
+
+mcp-check:
+	.venv/bin/python scripts/verify_mcp.py
