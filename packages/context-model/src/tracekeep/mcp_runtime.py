@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from tracekeep.demo import (
     DEMO_ACTOR_ID,
     DEMO_REPOSITORY_ID,
@@ -11,6 +13,7 @@ from tracekeep.demo import (
 from tracekeep.mcp_server import create_mcp_server
 from tracekeep.service import ServiceScope
 from tracekeep.storage import TracekeepStore
+from tracekeep.workspace import sync_local_workspace
 
 
 def serve_demo_mcp(database_url: str) -> None:
@@ -23,5 +26,16 @@ def serve_demo_mcp(database_url: str) -> None:
             repository_id=DEMO_REPOSITORY_ID,
         )
         create_mcp_server(store, scope).run("stdio")
+    finally:
+        store.close()
+
+
+def serve_workspace_mcp(repository_path: Path, database_url: str | None = None) -> None:
+    """Synchronize one exact Git workspace, then expose only read-only scoped tools."""
+
+    synced = sync_local_workspace(repository_path, database_url=database_url)
+    store = TracekeepStore(synced.database_url)
+    try:
+        create_mcp_server(store, synced.workspace.scope).run("stdio")
     finally:
         store.close()
