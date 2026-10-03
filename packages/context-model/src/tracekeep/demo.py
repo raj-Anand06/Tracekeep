@@ -28,7 +28,7 @@ class DemoResult:
 
 
 def default_demo_repository() -> Path:
-    return project_root() / ".tracekeep" / "demo-repository"
+    return project_root() / ".tracekeep" / "demo-repository-v0.1"
 
 
 def _git(
