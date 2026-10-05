@@ -210,7 +210,7 @@ def _verify_clean_clone() -> None:
             raise RuntimeError("Tracekeep dirtied the clean-clone user repository")
         if not (repository / ".git" / "tracekeep" / "tracekeep.db").is_file():
             raise RuntimeError("Repository-private SQLite state was not created")
-        if not mcp["handoff_current"] or mcp["tool_count"] != 6:
+        if not mcp["handoff_current"] or mcp["tool_count"] != 7:
             raise RuntimeError("Clean-clone MCP proof returned incomplete state")
 
         print(
