@@ -190,6 +190,13 @@ def _verify_clean_clone() -> None:
         synchronized = json.loads(
             _run([str(tracekeep), "sync", str(repository)], cwd=checkout)
         )
+        diagnosed = json.loads(
+            _run([str(tracekeep), "doctor", str(repository)], cwd=checkout)
+        )
+        rendered_handoff = _run(
+            [str(tracekeep), "handoff", str(repository)],
+            cwd=checkout,
+        )
         profiles = json.loads(
             _run(
                 [
@@ -201,6 +208,36 @@ def _verify_clean_clone() -> None:
                 ],
                 cwd=checkout,
             )
+        )
+        connected = json.loads(
+            _run(
+                [
+                    str(tracekeep),
+                    "connect",
+                    "cursor",
+                    str(repository),
+                    "--python-executable",
+                    str(python),
+                ],
+                cwd=checkout,
+            )
+        )
+        cursor_profile = json.loads(
+            (repository / ".cursor" / "mcp.json").read_text(encoding="utf-8")
+        )
+        _git(repository, "add", ".cursor/mcp.json")
+        _git(
+            repository,
+            "-c",
+            "user.name=Tracekeep Clean Clone",
+            "-c",
+            "user.email=clean-clone@example.invalid",
+            "commit",
+            "-m",
+            "Connect Tracekeep to Cursor",
+        )
+        synchronized = json.loads(
+            _run([str(tracekeep), "sync", str(repository)], cwd=checkout)
         )
         mcp = json.loads(
             _run(
@@ -222,6 +259,12 @@ def _verify_clean_clone() -> None:
             "vscode",
         }:
             raise RuntimeError("Clean-clone client profile set is incomplete")
+        if not diagnosed["ready"] or not diagnosed["handoff"]["current"]:
+            raise RuntimeError("Clean-clone doctor did not confirm the current handoff")
+        if "# Tracekeep handoff" not in rendered_handoff or "repo://" not in rendered_handoff:
+            raise RuntimeError("Clean-clone terminal handoff omitted evidence")
+        if not connected["changed"] or "tracekeep" not in cursor_profile["mcpServers"]:
+            raise RuntimeError("Clean-clone client connection was not written safely")
         if _git(repository, "status", "--porcelain=v1", "--untracked-files=all"):
             raise RuntimeError("Tracekeep dirtied the clean-clone user repository")
         if not (repository / ".git" / "tracekeep" / "tracekeep.db").is_file():
@@ -239,6 +282,9 @@ def _verify_clean_clone() -> None:
                     "task_id": initialized["task_id"],
                     "synchronized_commit": synchronized["commit"],
                     "clients": sorted(profiles["clients"]),
+                    "doctor_ready": diagnosed["ready"],
+                    "terminal_handoff_cited": "repo://" in rendered_handoff,
+                    "connected_client": connected["client"],
                     "mcp": mcp,
                     "working_tree_clean": True,
                     "api_keys_required": False,
