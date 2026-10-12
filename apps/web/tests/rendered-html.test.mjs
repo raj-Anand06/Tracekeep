@@ -35,7 +35,7 @@ test("server-renders the complete Tracekeep product surface", async () => {
   assert.match(html, /run_job calls RetryPolicy/);
   assert.match(html, /CONTRADICTED/);
   assert.match(html, /A second agent continued the task from the handoff/);
-  assert.match(html, /Nine deterministic synthetic regression cases/);
+  assert.match(html, /Eleven deterministic synthetic regression cases/);
   assert.match(html, /Keep your coding agent/);
   assert.match(html, /tracekeep connect codex/);
   assert.match(html, /The evidence contract/);
