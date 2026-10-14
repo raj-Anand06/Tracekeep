@@ -13,6 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title: {
     default: "Tracekeep: Evidence-bound engineering handoffs",
     template: "%s · Tracekeep",
@@ -24,6 +27,21 @@ export const metadata: Metadata = {
     description:
       "A cited engineering handoff bound to the exact task, branch, and commit.",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1731,
+        height: 909,
+        alt: "Tracekeep: Resume engineering work from evidence, not summaries.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tracekeep: Resume work with source evidence",
+    description:
+      "A cited engineering handoff bound to the exact task, branch, and commit.",
+    images: ["/og.png"],
   },
 };
 
