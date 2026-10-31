@@ -75,43 +75,52 @@ Requirements:
 - Git
 - Python 3.12 to 3.14
 
+Install directly from GitHub into an isolated user command:
+
 ```bash
-git clone https://github.com/raj-Anand06/Tracekeep.git
-cd Tracekeep
-make setup
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install git+https://github.com/raj-Anand06/Tracekeep.git
 ```
 
-This installs the `tracekeep` command inside `.venv`. Docker is only needed for the PostgreSQL-backed development and release checks.
+Open a new terminal after `ensurepath` the first time. Docker is not required for local use; it is
+only needed for PostgreSQL-backed development and release checks.
 
 ## Add Tracekeep to a repository
 
-Set the path to the installed command:
+Onboard one repository and coding client:
 
 ```bash
-TRACEKEEP=/absolute/path/to/Tracekeep/.venv/bin/tracekeep
-```
-
-Create the task contract:
-
-```bash
-$TRACEKEEP init /path/to/your-repository \
+tracekeep onboard /path/to/your-repository \
   --objective "What this task must accomplish" \
-  --next-action "The next concrete action"
+  --next-action "The next concrete action" \
+  --client codex
 ```
 
-Review and commit the generated manifest, then compile the first handoff:
+Supported clients are `codex`, `claude`, `cursor`, `vscode`, and `antigravity`.
+
+Onboarding requires a clean Git working tree. In one command, Tracekeep:
+
+- creates and commits only the repository-owned `tracekeep.json` contract;
+- compiles the first handoff at that exact commit;
+- connects the selected project's read-only MCP server;
+- keeps the machine-specific client profile local; and
+- verifies that the repository is ready before returning.
+
+It uses your configured Git identity for the context commit and does not require an API key. Local
+derived state stays at `.git/tracekeep/tracekeep.db`.
+
+Confirm or read the resulting handoff at any time:
 
 ```bash
-cd /path/to/your-repository
-git add tracekeep.json
-git commit -m "Add Tracekeep context"
-$TRACEKEEP sync .
-$TRACEKEEP doctor .
+tracekeep doctor .
+tracekeep handoff .
 ```
 
-Tracekeep stores its derived local database at `.git/tracekeep/tracekeep.db`.
+The lower-level `init`, `sync`, `clients`, and `connect` commands remain available for custom
+workflows.
 
-## Connect a coding client
+## Connect another coding client
 
 Generate one project-scoped MCP profile:
 
@@ -131,7 +140,8 @@ To inspect every supported profile without writing a client configuration:
 $TRACEKEEP clients .
 ```
 
-Tracekeep changes only the selected project's configuration. It does not modify global client settings.
+Tracekeep changes only the selected project's configuration. It does not modify global client
+settings or commit machine-specific runtime paths.
 
 ## Everyday workflow
 
@@ -201,7 +211,7 @@ The design decisions are documented in the [ADR index](./docs/adr/README.md). Se
 
 The repository contains reproducible evidence for the behaviors Tracekeep depends on:
 
-- 137 automated tests with a 90% coverage gate.
+- 143 automated tests with a 90% coverage gate.
 - 30 frozen continuation, conflict, freshness, retrieval, permission, injection, secret, ingestion, and degraded-mode cases.
 - An 11-case executed continuation benchmark covering cross-agent continuation, stale refusal, citation resolution, command evidence, scope denial, redaction, and instruction-boundary signals.
 - An end-to-end Agent B scenario that reads a handoff over MCP, changes code, runs tests, commits, observes stale refusal, and receives a newly verified handoff.
@@ -269,7 +279,6 @@ evals/                    frozen datasets, baselines, and raw results
 demo/                     deterministic continuation scenario
 docs/adr/                 architecture decisions and tradeoffs
 docs/threat-model/        trust boundaries and security analysis
-infra/migrations/         PostgreSQL schema migrations
 scripts/                  release and repository quality gates
 tests/                    unit, property, contract, and integration tests
 ```
