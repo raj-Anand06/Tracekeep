@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.scripts]
-tracekeep = "tracekeep.cli:main"
+tracekeep = "tracekeep.cli:run"
 
 [project.optional-dependencies]
 dev = [
