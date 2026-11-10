@@ -10,6 +10,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 import uvicorn
+from sqlalchemy.exc import SQLAlchemyError
 
 from tracekeep.api import create_app
 from tracekeep.client_profiles import build_client_profiles, connect_client, disconnect_client
@@ -406,6 +407,13 @@ def run() -> None:
     except KeyboardInterrupt:
         print("Tracekeep stopped before completing the operation.", file=sys.stderr)
         raise SystemExit(130) from None
-    except (FileNotFoundError, FileExistsError, LookupError, PermissionError, ValueError) as error:
+    except (
+        FileNotFoundError,
+        FileExistsError,
+        LookupError,
+        PermissionError,
+        SQLAlchemyError,
+        ValueError,
+    ) as error:
         print(f"Tracekeep: {error}", file=sys.stderr)
         raise SystemExit(2) from None
