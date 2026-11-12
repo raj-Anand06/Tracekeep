@@ -629,29 +629,15 @@ export function TracekeepDemo() {
           <li>
             <span>01</span>
             <div>
-              <strong>Initialize the task contract</strong>
-              <code>tracekeep init . --objective &quot;Fix parser drift&quot; --next-action &quot;Add the integration check&quot;</code>
+              <strong>Install Tracekeep once</strong>
+              <code>pipx install git+https://github.com/raj-Anand06/Tracekeep.git</code>
             </div>
           </li>
           <li>
             <span>02</span>
             <div>
-              <strong>Connect one project-scoped client</strong>
-              <code>tracekeep connect codex .</code>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <strong>Record real command evidence</strong>
-              <code>tracekeep check . --scope FULL --include parser.py -- pytest -q</code>
-            </div>
-          </li>
-          <li>
-            <span>04</span>
-            <div>
-              <strong>Hand off at the exact commit</strong>
-              <code>tracekeep sync . &amp;&amp; tracekeep handoff .</code>
+              <strong>Onboard a repository and client</strong>
+              <code>tracekeep onboard . --objective &quot;Fix parser drift&quot; --next-action &quot;Add the integration check&quot; --client codex</code>
             </div>
           </li>
         </ol>
