@@ -1,6 +1,10 @@
-# Tracekeep
+<p align="center">
+  <img src="apps/web/public/tracekeep-mark.svg" alt="Tracekeep" width="120">
+</p>
 
-**Evidence-bound handoffs for coding agents.**
+<h1 align="center">Tracekeep</h1>
+
+<p align="center"><strong>Evidence-bound handoffs for coding agents.</strong></p>
 
 [![CI](https://github.com/raj-Anand06/Tracekeep/actions/workflows/ci.yml/badge.svg)](https://github.com/raj-Anand06/Tracekeep/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/raj-Anand06/Tracekeep)](https://github.com/raj-Anand06/Tracekeep/releases/latest)
