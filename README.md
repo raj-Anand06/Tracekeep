@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="apps/web/public/tracekeep-mark.svg" alt="Tracekeep" width="120">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="apps/web/public/tracekeep-mark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="apps/web/public/tracekeep-mark.svg">
+    <img src="apps/web/public/tracekeep-mark.svg" alt="Tracekeep commit seam" width="120">
+  </picture>
 </p>
 
 <h1 align="center">Tracekeep</h1>
