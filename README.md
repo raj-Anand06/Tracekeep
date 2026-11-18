@@ -1,21 +1,6 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="apps/web/public/tracekeep-mark-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="apps/web/public/tracekeep-mark.svg">
-    <img src="apps/web/public/tracekeep-mark.svg" alt="Tracekeep commit seam" width="120">
-  </picture>
-</p>
+# Tracekeep
 
-<h1 align="center">Tracekeep</h1>
-
-<p align="center"><strong>Evidence-bound handoffs for coding agents.</strong></p>
-
-[![CI](https://github.com/raj-Anand06/Tracekeep/actions/workflows/ci.yml/badge.svg)](https://github.com/raj-Anand06/Tracekeep/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/raj-Anand06/Tracekeep)](https://github.com/raj-Anand06/Tracekeep/releases/latest)
-[![License](https://img.shields.io/github/license/raj-Anand06/Tracekeep)](./LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.12--3.14-3776AB)](./pyproject.toml)
-
-[Live product demo](https://tracekeep-context.vercel.app) · [Quick start](#quick-start) · [Evaluation](#evaluation)
+Evidence-bound handoffs for coding agents.
 
 Tracekeep gives the next developer or coding agent a current, cited picture of unfinished work. It binds claims, decisions, code relationships, and command results to an exact Git commit, then refuses to serve the handoff when the repository has moved.
 
@@ -93,16 +78,16 @@ Requirements:
 - Git
 - Python 3.12 to 3.14
 
-On macOS with Homebrew, install `pipx` without writing into Apple's or Homebrew's managed Python:
+From this repository checkout on macOS with Homebrew, install `pipx` and the local package:
 
 ```bash
 brew install pipx
 pipx ensurepath
-pipx install git+https://github.com/raj-Anand06/Tracekeep.git
+pipx install .
 ```
 
 On Linux, install `pipx` with the operating system package manager, then run the same final two
-commands. Open a new terminal after `ensurepath` the first time.
+commands from this checkout. Open a new terminal after `ensurepath` the first time.
 
 From a clean Git repository, onboard the task and one coding client:
 
@@ -245,7 +230,7 @@ Tracekeep keeps the trust boundary explicit:
 - MCP exposes a small read-only interface to coding clients.
 - The web workbench makes handoffs, evidence, conflicts, and graph traces inspectable.
 
-The design decisions are documented in the [ADR index](./docs/adr/README.md). Security boundaries are documented in the [threat model](./docs/threat-model/THREAT_MODEL_V1.md).
+The design decisions are documented in `docs/adr/README.md`. Security boundaries are documented in `docs/threat-model/THREAT_MODEL_V1.md`.
 
 ## Evaluation
 
@@ -259,15 +244,11 @@ The repository contains reproducible evidence for the behaviors Tracekeep depend
 
 Raw results are committed with the code:
 
-- [Executed continuation benchmark](./evals/results/continuation-benchmark-v0.3.json)
-- [Primary continuation scenario](./evals/results/phase1-primary.json)
-- [Code-graph ablation](./evals/results/phase2-graph-ablation.json)
+- Executed continuation benchmark: `evals/results/continuation-benchmark-v0.3.json`
+- Primary continuation scenario: `evals/results/phase1-primary.json`
+- Code-graph ablation: `evals/results/phase2-graph-ablation.json`
 
 ## Demo
-
-Open the [public product demo](https://tracekeep-context.vercel.app) without an account. It presents
-the interactive evidence workbench, an executed continuation proof, the evidence contract, and the
-local adoption path.
 
 In the retained synthetic continuation fixture, the compact MCP response is 2,695 bytes versus
 10,330 bytes for the full ranked response, a 73.9% reduction while preserving the exact version,
@@ -290,7 +271,7 @@ make api
 make web
 ```
 
-Open `http://localhost:3000`.
+Open the local web app on port 3000.
 
 ## Development
 
@@ -343,4 +324,4 @@ tests/                    unit, property, contract, and integration tests
 
 ## License
 
-Tracekeep is open source under the [Apache License 2.0](./LICENSE).
+Tracekeep is open source under the Apache License 2.0. See `LICENSE` for the full terms.
